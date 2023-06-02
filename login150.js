@@ -122,6 +122,10 @@ class Login{
         const endpoint=`${this.config.endpoint}/?matricula=${mat}&senha=${pas}`
         fetch(endpoint).then(res=>res.json()).then(res=>{
             if(res){
+                console("logado","true");
+                console("matLogado",mat);
+                console("nomeLogado",res.nome);
+                console("acessoLogado",res.acesso);
                 sessionStorage.setItem("logado","true")
                 sessionStorage.setItem("matLogado",mat)
                 sessionStorage.setItem("nomeLogado",res.nome)
