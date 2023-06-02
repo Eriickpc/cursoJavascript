@@ -7,16 +7,13 @@ class Login{
     static callbackOk=null
     static callbackNaoOk=null
     static config={
-        cor:"048",
-        img:"logo.png"
+        cor:null, //048
+        img:null,
+        endpoint:null //https://api-curso.mrsuubpc2.repl.co
     }
-    static endpoint="https://api-curso.mrsuubpc2.repl.co"; 
-    //https://api-curso.mrsuubpc2.repl.co/?matricula=123&senha=321
 
-    static login=(callbackOk,callbackNaoOk,config=null)=>{
-        if(config!=null){
-            this.config=config;
-        };
+    static login=(callbackOk,callbackNaoOk,config)=>{   
+        this.config=config;
         this.callbackOk=()=>{callbackOk()};
         this.callbackNaoOk=()=>{callbackNaoOk()};
         this.estilocss=
@@ -122,20 +119,20 @@ class Login{
         const mat=document.getElementById("f_usuario").value;
         const pas=document.getElementById("f_senha").value;
 
-        const endpoint=`https://api-curso.mrsuubpc2.repl.co/?matricula=${mat}&senha=${pas}`
+        const endpoint=`${this.config.endpoint}/?matricula=${mat}&senha=${pas}`
         fetch(endpoint).then(res=>res.json()).then(res=>{
             if(res){
-                this.logado=true;
-                this.matLogado=mat;
-                this.nomeLogado=res.nome;
-                this.acessoLogado=res.acesso;
+                sessionStorage.setItem("logado","true")
+                sessionStorage.setItem("matLogado",mat)
+                sessionStorage.setItem("nomeLogado",res.nome)
+                sessionStorage.setItem("acessoLogado",res.acesso)
                 this.callbackOk();
                 this.fechar();
             }else{
-                this.logado=false;
-                this.matLogado=null;
-                this.nomeLogado=null;
-                this.acessoLogado=null;
+                sessionStorage.setItem("logado","false")
+                sessionStorage.setItem("matLogado","")
+                sessionStorage.setItem("nomeLogado","")
+                sessionStorage.setItem("acessoLogado","")
                 this.callbackNaoOk()
                 }   
             });
